@@ -1,13 +1,22 @@
-from mealmaker.core import is_vege, fits_time, within_budget_avg, select_menu, consolidate_shopping_list
+from mealmaker.core import is_vege, fits_time, within_budget_avg, select_menu, consolidate_shopping_list, has_excluded_ingredients
 
 def sample_recipes():
     return [
         {"id": "r1", "name": "A", "tags": ["vege"], "time_min": 15, "budget_eur": 2.0,
-         "ingredients": [{"name": "pâtes", "qty": 200, "unit": "g"}]},
+         "ingredients": [
+             {"name": "pâtes", "qty": 200, "unit": "g"},
+             {"name": "tomate", "qty": 2, "unit": "piece"}
+         ]},
         {"id": "r2", "name": "B", "tags": ["viande"], "time_min": 30, "budget_eur": 3.0,
-         "ingredients": [{"name": "riz", "qty": 150, "unit": "g"}]},
+         "ingredients": [
+             {"name": "riz", "qty": 150, "unit": "g"},
+             {"name": "noix", "qty": 50, "unit": "g"}
+         ]},
         {"id": "r3", "name": "C", "tags": ["vege"], "time_min": 10, "budget_eur": 1.5,
-         "ingredients": [{"name": "pâtes", "qty": 100, "unit": "g"}]},
+         "ingredients": [
+             {"name": "pâtes", "qty": 100, "unit": "g"},
+             {"name": "arachides", "qty": 30, "unit": "g"}
+         ]},
     ]
 
 def test_is_vege():
@@ -42,3 +51,31 @@ def test_consolidate_shopping_list():
     lookup = { (i["name"], i["unit"]): i["qty"] for i in items }
     assert lookup.get(("pâtes", "g")) == 200
     assert lookup.get(("riz", "g")) == 150
+
+def test_has_excluded_ingredients():
+    recipe = {
+        "ingredients": [
+            {"name": "pâtes", "qty": 200, "unit": "g"},
+            {"name": "noix", "qty": 50, "unit": "g"},
+            {"name": "tomate", "qty": 2, "unit": "piece"}
+        ]
+    }
+    assert has_excluded_ingredients(recipe, ["noix"]) is True
+    assert has_excluded_ingredients(recipe, ["NOIX"]) is True  # Test case insensitive
+    assert has_excluded_ingredients(recipe, ["arachides"]) is False
+    assert has_excluded_ingredients(recipe, None) is False
+    assert has_excluded_ingredients(recipe, []) is False
+
+def test_select_menu_with_excluded_ingredients():
+    recs = sample_recipes()
+    excluded = ["noix", "arachides"]
+    menu = select_menu(recs, days=3, min_vege=2, max_time=30, exclude_ingredients=excluded, seed=1)
+    
+    # Vérifier qu'aucune recette ne contient les ingrédients exclus
+    for recipe in menu:
+        assert not has_excluded_ingredients(recipe, excluded)
+        
+    # Vérifier que la recette avec des noix est exclue
+    recipe_names = [r["name"] for r in menu]
+    assert "B" not in recipe_names  # La recette B contient des noix
+    assert "C" not in recipe_names  # La recette C contient des arachides

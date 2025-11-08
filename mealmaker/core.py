@@ -10,6 +10,15 @@ def fits_time(recipe: Dict[str, Any], max_time: int | None) -> bool:
         return True
     return int(recipe.get("time_min", 9999)) <= max_time
 
+def has_excluded_ingredients(recipe: Dict[str, Any], exclude_ingredients: List[str] | None) -> bool:
+    if not exclude_ingredients:
+        return False
+    recipe_ingredients = recipe.get("ingredients", [])
+    return any(
+        any(excl.lower() in ingredient["name"].lower() for ingredient in recipe_ingredients)
+        for excl in exclude_ingredients
+    )
+
 def within_budget_avg(selected: List[Dict[str, Any]], avg_target: float, tolerance: float = 0.2) -> bool:
     if not selected:
         return True
@@ -24,6 +33,7 @@ def select_menu(
     avg_budget: float | None = None,
     tolerance: float = 0.2,
     seed: int | None = 42,
+    exclude_ingredients: List[str] | None = None,
 ) -> List[Dict[str, Any]]:
     """
     Sélection simple et déterministe (via seed) :
@@ -31,7 +41,7 @@ def select_menu(
     - Tire au sort jusqu'à avoir 'days' recettes.
     - Vérifie min_vege et budget moyen (si fourni). Réessaie quelques fois.
     """
-    pool = [r for r in recipes if fits_time(r, max_time)]
+    pool = [r for r in recipes if fits_time(r, max_time) and not has_excluded_ingredients(r, exclude_ingredients)]
     if seed is not None:
         random.seed(seed)
     attempts = 200
@@ -77,10 +87,12 @@ def plan_menu(
     avg_budget: float | None = None,
     tolerance: float = 0.2,
     seed: int | None = 42,
+    exclude_ingredients: List[str] | None = None,
 ) -> Dict[str, Any]:
     menu = select_menu(
         recipes, days=days, min_vege=min_vege, max_time=max_time,
-        avg_budget=avg_budget, tolerance=tolerance, seed=seed
+        avg_budget=avg_budget, tolerance=tolerance, seed=seed,
+        exclude_ingredients=exclude_ingredients
     )
     shopping = consolidate_shopping_list(menu)
     return {"days": days, "menu": menu, "shopping_list": shopping}
