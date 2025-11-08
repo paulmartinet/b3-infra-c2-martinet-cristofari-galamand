@@ -32,5 +32,49 @@
       {"name": "poulet", "qty": 1, "unit": "kg"},
       {"name": "pommes de terre", "qty": 500, "unit": "g"}
     ]
+  },
+  {
+    "id": "r4",
+    "name": "Riz au saumon",
+    "tags": ["poisson"],
+    "time_min": 60,
+    "budget_eur": 4.0,
+    "ingredients": [
+      {"name": "saumon", "qty": 1, "unit": "kg"},
+      {"name": "riz", "qty": 500, "unit": "g"}
+    ]
+  },
+  {
+    "id": "r5",
+    "name": "tarte à la tomate",
+    "tags": ["tarte"],
+    "time_min": 60,
+    "budget_eur": 4.0,
+    "ingredients": [
+      {"name": "tomate", "qty": 1, "unit": "kg"},
+      {"name": "farine", "qty": 500, "unit": "g"}
+    ]
+  },
+  {
+    "id": "r6",
+    "name": "Pizza",
+    "tags": ["pizza"],
+    "time_min": 60,
+    "budget_eur": 4.0,
+    "ingredients": [
+      {"name": "pizza", "qty": 1, "unit": "kg"},
+      {"name": "frite", "qty": 500, "unit": "g"}
+    ]
+  },
+  {
+    "id": "r7",
+    "name": "burger",
+    "tags": ["viande"],
+    "time_min": 60,
+    "budget_eur": 4.0,
+    "ingredients": [
+      {"name": "boeuf", "qty": 1, "unit": "kg"},
+      {"name": "pain", "qty": 500, "unit": "g"}
+    ]
   }
 ]
