@@ -12,6 +12,9 @@ def main():
     p.add_argument("--tolerance", type=float, default=0.2)
     p.add_argument("--seed", type=int, default=42)
     p.add_argument("--output", default=None, help="Chemin pour sauvegarder le JSON")
+    #Code de Paul pour mission "--min-fish, --max-meat: contrainte sur certains tags (ex: “poisson”, “viande”)"
+    p.add_argument("--min-fish", type=int, default=0, help="Nombre minimal de recettes avec tag 'poisson'")
+    p.add_argument("--max-meat", type=int, default=None, help="Nombre maximal de recettes avec tag 'viande' (None = pas de contrainte)")
 
     args = p.parse_args()
 
