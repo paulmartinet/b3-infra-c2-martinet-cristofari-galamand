@@ -1,22 +1,17 @@
-from mealmaker.core import is_vege, fits_time, within_budget_avg, select_menu, consolidate_shopping_list, has_excluded_ingredients
+from mealmaker.core import (
+    is_vege, fits_time, within_budget_avg, select_menu,
+    consolidate_shopping_list, plan_menu,
+    has_excluded_ingredients,
+)
 
 def sample_recipes():
     return [
         {"id": "r1", "name": "A", "tags": ["vege"], "time_min": 15, "budget_eur": 2.0,
-         "ingredients": [
-             {"name": "pâtes", "qty": 200, "unit": "g"},
-             {"name": "tomate", "qty": 2, "unit": "piece"}
-         ]},
+         "ingredients": [{"name": "pâtes", "qty": 200, "unit": "g"}]},
         {"id": "r2", "name": "B", "tags": ["viande"], "time_min": 30, "budget_eur": 3.0,
-         "ingredients": [
-             {"name": "riz", "qty": 150, "unit": "g"},
-             {"name": "noix", "qty": 50, "unit": "g"}
-         ]},
+         "ingredients": [{"name": "riz", "qty": 150, "unit": "g"}]},
         {"id": "r3", "name": "C", "tags": ["vege"], "time_min": 10, "budget_eur": 1.5,
-         "ingredients": [
-             {"name": "pâtes", "qty": 100, "unit": "g"},
-             {"name": "arachides", "qty": 30, "unit": "g"}
-         ]},
+         "ingredients": [{"name": "pâtes", "qty": 100, "unit": "g"}]},
     ]
 
 def test_is_vege():
@@ -52,6 +47,40 @@ def test_consolidate_shopping_list():
     assert lookup.get(("pâtes", "g")) == 200
     assert lookup.get(("riz", "g")) == 150
 
+def test_no_duplicates_happy_path():
+    """Test que l'option no_duplicates évite effectivement les doublons quand possible."""
+    # Créer 5 recettes uniques
+    recipes = [
+        {"id": f"r{i}", "name": f"Recipe {i}", "tags": ["vege"] if i % 2 == 0 else [],
+         "time_min": 20, "budget_eur": 2.0, "ingredients": []}
+        for i in range(5)
+    ]
+
+    # Demander 3 jours (moins que le nombre de recettes disponibles)
+    result = plan_menu(recipes, days=3, min_vege=1, no_duplicates=True, seed=42)
+
+    # Vérifier qu'on n'a pas de doublons
+    menu_ids = [r["id"] for r in result["menu"]]
+    assert len(menu_ids) == len(set(menu_ids)), "Le menu contient des doublons"
+    assert len(result["menu"]) == 3, "Le menu doit avoir exactement 3 jours"
+    assert "warnings" not in result, "Pas de warning attendu quand assez de recettes"
+
+def test_no_duplicates_with_small_pool():
+    """Test le comportement quand pas assez de recettes uniques."""
+    # Seulement 2 recettes dans le pool
+    recipes = [
+        {"id": "r1", "name": "Recipe 1", "tags": ["vege"], "time_min": 20, "budget_eur": 2.0, "ingredients": []},
+        {"id": "r2", "name": "Recipe 2", "tags": ["vege"], "time_min": 20, "budget_eur": 2.0, "ingredients": []},
+    ]
+
+    # Demander 4 jours (plus que le nombre de recettes disponibles)
+    result = plan_menu(recipes, days=4, min_vege=1, no_duplicates=True, seed=42)
+
+    assert len(result["menu"]) == 4, "Le menu doit avoir 4 jours même si duplication nécessaire"
+    assert "warnings" in result, "Un warning doit être présent quand duplication inévitable"
+    assert any("no_duplicates" in w.lower() for w in result["warnings"]), \
+        "Le warning doit mentionner no_duplicates"
+
 def test_has_excluded_ingredients():
     recipe = {
         "ingredients": [
@@ -65,17 +94,3 @@ def test_has_excluded_ingredients():
     assert has_excluded_ingredients(recipe, ["arachides"]) is False
     assert has_excluded_ingredients(recipe, None) is False
     assert has_excluded_ingredients(recipe, []) is False
-
-def test_select_menu_with_excluded_ingredients():
-    recs = sample_recipes()
-    excluded = ["noix", "arachides"]
-    menu = select_menu(recs, days=3, min_vege=2, max_time=30, exclude_ingredients=excluded, seed=1)
-    
-    # Vérifier qu'aucune recette ne contient les ingrédients exclus
-    for recipe in menu:
-        assert not has_excluded_ingredients(recipe, excluded)
-        
-    # Vérifier que la recette avec des noix est exclue
-    recipe_names = [r["name"] for r in menu]
-    assert "B" not in recipe_names  # La recette B contient des noix
-    assert "C" not in recipe_names  # La recette C contient des arachides

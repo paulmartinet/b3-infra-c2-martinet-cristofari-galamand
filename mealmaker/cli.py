@@ -11,7 +11,11 @@ def main():
     p.add_argument("--avg-budget", type=float, default=None)
     p.add_argument("--tolerance", type=float, default=0.2)
     p.add_argument("--seed", type=int, default=42)
+<<<<<<< HEAD
+    p.add_argument("--no-duplicates", action="store_true", help="Éviter les doublons exacts de recettes dans la semaine")
+=======
     p.add_argument("--exclude-ingredients", nargs="+", help="Liste des ingrédients à exclure")
+>>>>>>> branche_mar
     p.add_argument("--output", default=None, help="Chemin pour sauvegarder le JSON")
 
     args = p.parse_args()
@@ -25,7 +29,11 @@ def main():
         avg_budget=args.avg_budget,
         tolerance=args.tolerance,
         seed=args.seed,
+<<<<<<< HEAD
+        no_duplicates=args.no_duplicates,
+=======
         exclude_ingredients=args.exclude_ingredients,
+>>>>>>> branche_mar
     )
     save_json(result, args.output)
 
