@@ -1,6 +1,7 @@
 from mealmaker.core import (
     is_vege, fits_time, within_budget_avg, select_menu,
     consolidate_shopping_list, plan_menu,
+    has_excluded_ingredients,
 )
 
 def sample_recipes():
@@ -50,14 +51,14 @@ def test_no_duplicates_happy_path():
     """Test que l'option no_duplicates évite effectivement les doublons quand possible."""
     # Créer 5 recettes uniques
     recipes = [
-        {"id": f"r{i}", "name": f"Recipe {i}", "tags": ["vege"] if i % 2 == 0 else [], 
+        {"id": f"r{i}", "name": f"Recipe {i}", "tags": ["vege"] if i % 2 == 0 else [],
          "time_min": 20, "budget_eur": 2.0, "ingredients": []}
         for i in range(5)
     ]
-    
+
     # Demander 3 jours (moins que le nombre de recettes disponibles)
     result = plan_menu(recipes, days=3, min_vege=1, no_duplicates=True, seed=42)
-    
+
     # Vérifier qu'on n'a pas de doublons
     menu_ids = [r["id"] for r in result["menu"]]
     assert len(menu_ids) == len(set(menu_ids)), "Le menu contient des doublons"
@@ -71,11 +72,25 @@ def test_no_duplicates_with_small_pool():
         {"id": "r1", "name": "Recipe 1", "tags": ["vege"], "time_min": 20, "budget_eur": 2.0, "ingredients": []},
         {"id": "r2", "name": "Recipe 2", "tags": ["vege"], "time_min": 20, "budget_eur": 2.0, "ingredients": []},
     ]
-    
+
     # Demander 4 jours (plus que le nombre de recettes disponibles)
     result = plan_menu(recipes, days=4, min_vege=1, no_duplicates=True, seed=42)
-    
+
     assert len(result["menu"]) == 4, "Le menu doit avoir 4 jours même si duplication nécessaire"
     assert "warnings" in result, "Un warning doit être présent quand duplication inévitable"
     assert any("no_duplicates" in w.lower() for w in result["warnings"]), \
         "Le warning doit mentionner no_duplicates"
+
+def test_has_excluded_ingredients():
+    recipe = {
+        "ingredients": [
+            {"name": "pâtes", "qty": 200, "unit": "g"},
+            {"name": "noix", "qty": 50, "unit": "g"},
+            {"name": "tomate", "qty": 2, "unit": "piece"}
+        ]
+    }
+    assert has_excluded_ingredients(recipe, ["noix"]) is True
+    assert has_excluded_ingredients(recipe, ["NOIX"]) is True  # Test case insensitive
+    assert has_excluded_ingredients(recipe, ["arachides"]) is False
+    assert has_excluded_ingredients(recipe, None) is False
+    assert has_excluded_ingredients(recipe, []) is False
