@@ -24,11 +24,13 @@ def select_menu(
     avg_budget: float | None = None,
     tolerance: float = 0.2,
     seed: int | None = 42,
+    no_duplicates: bool = False,
 ) -> List[Dict[str, Any]]:
     """
     Sélection simple et déterministe (via seed) :
     - Filtre par temps.
     - Tire au sort jusqu'à avoir 'days' recettes.
+    - Si no_duplicates=True, évite les doublons exacts quand c'est possible.
     - Vérifie min_vege et budget moyen (si fourni). Réessaie quelques fois.
     """
     pool = [r for r in recipes if fits_time(r, max_time)]
@@ -37,10 +39,15 @@ def select_menu(
     attempts = 200
     best: List[Dict[str, Any]] = []
     for _ in range(attempts):
-        cand = random.sample(pool, k=min(days, len(pool))) if len(pool) >= days else pool[:]
-        # Si pas assez, on complète en re-piochant (permet petit dataset)
-        while len(cand) < days and pool:
-            cand.append(random.choice(pool))
+        if no_duplicates and len(pool) >= days:
+            # Si on a assez de recettes, on tire sans remise pour éviter les doublons
+            cand = random.sample(pool, k=days)
+        else:
+            # Sinon, on permet les doublons (soit no_duplicates=False, soit pas assez de recettes)
+            cand = random.sample(pool, k=min(days, len(pool))) if len(pool) >= days else pool[:]
+            # Si pas assez, on complète en re-piochant (permet petit dataset)
+            while len(cand) < days and pool:
+                cand.append(random.choice(pool))
         # Contraintes
         vege_count = sum(1 for r in cand if is_vege(r))
         if vege_count < min_vege:
@@ -77,10 +84,23 @@ def plan_menu(
     avg_budget: float | None = None,
     tolerance: float = 0.2,
     seed: int | None = 42,
+    no_duplicates: bool = False,
+    min_fish: int = 0,
+    max_meat: int | None = None,
 ) -> Dict[str, Any]:
     menu = select_menu(
         recipes, days=days, min_vege=min_vege, max_time=max_time,
-        avg_budget=avg_budget, tolerance=tolerance, seed=seed
+        avg_budget=avg_budget, tolerance=tolerance, seed=seed,
+        no_duplicates=no_duplicates,
     )
     shopping = consolidate_shopping_list(menu)
-    return {"days": days, "menu": menu, "shopping_list": shopping}
+    result = {"days": days, "menu": menu, "shopping_list": shopping}
+    
+    # Ajouter un warning si no_duplicates demandé mais impossible
+    if no_duplicates:
+        unique_recipes = {r.get("id", r.get("name")) for r in menu}  # utilise name si pas d'id
+        if len(unique_recipes) < days:
+            result.setdefault("warnings", []).append(
+                "no_duplicates demandé mais pas assez de recettes uniques disponibles"
+            )
+    return result

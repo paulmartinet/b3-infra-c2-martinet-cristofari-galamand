@@ -11,8 +11,9 @@ def main():
     p.add_argument("--avg-budget", type=float, default=None)
     p.add_argument("--tolerance", type=float, default=0.2)
     p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--no-duplicates", action="store_true", help="Éviter les doublons exacts de recettes dans la semaine")
     p.add_argument("--output", default=None, help="Chemin pour sauvegarder le JSON")
-    # Pour mission "--min-fish, --max-meat: contrainte sur certains tags (ex: “poisson”, “viande”)"
+    # Pour mission "--min-fish, --max-meat: contrainte sur certains tags (ex: "poisson", "viande")"
     p.add_argument("--min-fish", type=int, default=0, help="Nombre minimal de recettes avec tag 'poisson'")
     p.add_argument("--max-meat", type=int, default=None, help="Nombre maximal de recettes avec tag 'viande' (None = pas de contrainte)")
 
@@ -27,7 +28,8 @@ def main():
         avg_budget=args.avg_budget,
         tolerance=args.tolerance,
         seed=args.seed,
-        #Contraintes sur les tags
+        no_duplicates=args.no_duplicates,
+        #Contraintes sur les tags paul
         min_fish=args.min_fish,
         max_meat=args.max_meat,
     )
