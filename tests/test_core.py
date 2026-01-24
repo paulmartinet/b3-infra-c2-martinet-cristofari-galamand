@@ -92,5 +92,7 @@ def test_has_excluded_ingredients():
     assert has_excluded_ingredients(recipe, ["noix"]) is True
     assert has_excluded_ingredients(recipe, ["NOIX"]) is True  # Test case insensitive
     assert has_excluded_ingredients(recipe, ["arachides"]) is False
+    # tomate should be detected as allergen when listed
+    assert has_excluded_ingredients(recipe, ["tomate"]) is True
     assert has_excluded_ingredients(recipe, None) is False
     assert has_excluded_ingredients(recipe, []) is False
