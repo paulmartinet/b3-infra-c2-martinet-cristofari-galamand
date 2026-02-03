@@ -1,0 +1,237 @@
+{
+  "days": 7,
+  "menu": [
+    {
+      "id": "r6",
+      "name": "Pizza",
+      "tags": [
+        "pizza"
+      ],
+      "time_min": 60,
+      "budget_eur": 4.0,
+      "ingredients": [
+        {
+          "name": "pizza",
+          "qty": 1,
+          "unit": "kg"
+        },
+        {
+          "name": "frite",
+          "qty": 500,
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "id": "r1",
+      "name": "Pâtes à l'ail et huile d'olive",
+      "tags": [
+        "vege",
+        "rapide",
+        "budget"
+      ],
+      "time_min": 15,
+      "budget_eur": 2.0,
+      "ingredients": [
+        {
+          "name": "pâtes",
+          "qty": 200,
+          "unit": "g"
+        },
+        {
+          "name": "ail",
+          "qty": 2,
+          "unit": "gousse"
+        },
+        {
+          "name": "huile d'olive",
+          "qty": 2,
+          "unit": "cs"
+        }
+      ]
+    },
+    {
+      "id": "r7",
+      "name": "burger",
+      "tags": [
+        "viande"
+      ],
+      "time_min": 60,
+      "budget_eur": 4.0,
+      "ingredients": [
+        {
+          "name": "boeuf",
+          "qty": 1,
+          "unit": "kg"
+        },
+        {
+          "name": "pain",
+          "qty": 500,
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "id": "r3",
+      "name": "Poulet rôti",
+      "tags": [
+        "viande"
+      ],
+      "time_min": 60,
+      "budget_eur": 4.0,
+      "ingredients": [
+        {
+          "name": "poulet",
+          "qty": 1,
+          "unit": "kg"
+        },
+        {
+          "name": "pommes de terre",
+          "qty": 500,
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "id": "r5",
+      "name": "tarte à la tomate",
+      "tags": [
+        "tarte"
+      ],
+      "time_min": 60,
+      "budget_eur": 4.0,
+      "ingredients": [
+        {
+          "name": "tomate",
+          "qty": 1,
+          "unit": "kg"
+        },
+        {
+          "name": "farine",
+          "qty": 500,
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "id": "r4",
+      "name": "Riz au saumon",
+      "tags": [
+        "poisson"
+      ],
+      "time_min": 60,
+      "budget_eur": 4.0,
+      "ingredients": [
+        {
+          "name": "saumon",
+          "qty": 1,
+          "unit": "kg"
+        },
+        {
+          "name": "riz",
+          "qty": 500,
+          "unit": "g"
+        }
+      ]
+    },
+    {
+      "id": "r2",
+      "name": "Omelette fromage",
+      "tags": [
+        "vege",
+        "rapide"
+      ],
+      "time_min": 10,
+      "budget_eur": 1.8,
+      "ingredients": [
+        {
+          "name": "oeufs",
+          "qty": 3,
+          "unit": "piece"
+        },
+        {
+          "name": "fromage râpé",
+          "qty": 30,
+          "unit": "g"
+        }
+      ]
+    }
+  ],
+  "shopping_list": [
+    {
+      "name": "ail",
+      "qty": 2.0,
+      "unit": "gousse"
+    },
+    {
+      "name": "boeuf",
+      "qty": 1.0,
+      "unit": "kg"
+    },
+    {
+      "name": "farine",
+      "qty": 500.0,
+      "unit": "g"
+    },
+    {
+      "name": "frite",
+      "qty": 500.0,
+      "unit": "g"
+    },
+    {
+      "name": "fromage râpé",
+      "qty": 30.0,
+      "unit": "g"
+    },
+    {
+      "name": "huile d'olive",
+      "qty": 2.0,
+      "unit": "cs"
+    },
+    {
+      "name": "oeufs",
+      "qty": 3.0,
+      "unit": "piece"
+    },
+    {
+      "name": "pain",
+      "qty": 500.0,
+      "unit": "g"
+    },
+    {
+      "name": "pizza",
+      "qty": 1.0,
+      "unit": "kg"
+    },
+    {
+      "name": "pommes de terre",
+      "qty": 500.0,
+      "unit": "g"
+    },
+    {
+      "name": "poulet",
+      "qty": 1.0,
+      "unit": "kg"
+    },
+    {
+      "name": "pâtes",
+      "qty": 200.0,
+      "unit": "g"
+    },
+    {
+      "name": "riz",
+      "qty": 500.0,
+      "unit": "g"
+    },
+    {
+      "name": "saumon",
+      "qty": 1.0,
+      "unit": "kg"
+    },
+    {
+      "name": "tomate",
+      "qty": 1.0,
+      "unit": "kg"
+    }
+  ]
+}
