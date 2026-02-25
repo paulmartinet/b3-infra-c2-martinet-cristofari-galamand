@@ -6,11 +6,7 @@
     "time_min": 15,
     "budget_eur": 2.0,
     "ingredients": [
-<<<<<<< HEAD
       {"name": "pâtes", "qty": 200, "unit": "g"},
-=======
-      {"name": "pâtes (gluten)", "qty": 200, "unit": "g"},
->>>>>>> branche_mar
       {"name": "ail", "qty": 2, "unit": "gousse"},
       {"name": "huile d'olive", "qty": 2, "unit": "cs"}
     ]
@@ -23,11 +19,7 @@
     "budget_eur": 1.8,
     "ingredients": [
       {"name": "oeufs", "qty": 3, "unit": "piece"},
-<<<<<<< HEAD
       {"name": "fromage râpé", "qty": 30, "unit": "g"}
-=======
-      {"name": "fromage (lait)", "qty": 30, "unit": "g"}
->>>>>>> branche_mar
     ]
   },
   {
@@ -43,7 +35,6 @@
   },
   {
     "id": "r4",
-<<<<<<< HEAD
     "name": "Riz au saumon",
     "tags": ["poisson"],
     "time_min": 60,
@@ -51,23 +42,10 @@
     "ingredients": [
       {"name": "saumon", "qty": 1, "unit": "kg"},
       {"name": "riz", "qty": 500, "unit": "g"}
-=======
-    "name": "Salade aux fruits secs",
-    "tags": ["vege", "rapide"],
-    "time_min": 15,
-    "budget_eur": 3.5,
-    "ingredients": [
-      {"name": "laitue", "qty": 1, "unit": "piece"},
-      {"name": "noix", "qty": 50, "unit": "g"},
-      {"name": "amandes", "qty": 50, "unit": "g"},
-      {"name": "raisins secs", "qty": 30, "unit": "g"},
-      {"name": "huile d'olive", "qty": 2, "unit": "cs"}
->>>>>>> branche_mar
     ]
   },
   {
     "id": "r5",
-<<<<<<< HEAD
     "name": "tarte à la tomate",
     "tags": ["tarte"],
     "time_min": 60,
@@ -75,23 +53,10 @@
     "ingredients": [
       {"name": "tomate", "qty": 1, "unit": "kg"},
       {"name": "farine", "qty": 500, "unit": "g"}
-=======
-    "name": "Pad thaï aux crevettes",
-    "tags": ["asiatique"],
-    "time_min": 25,
-    "budget_eur": 6.0,
-    "ingredients": [
-      {"name": "nouilles de riz", "qty": 200, "unit": "g"},
-      {"name": "crevettes", "qty": 200, "unit": "g"},
-      {"name": "sauce soja", "qty": 2, "unit": "cs"},
-      {"name": "cacahuètes", "qty": 50, "unit": "g"},
-      {"name": "germes de soja", "qty": 100, "unit": "g"}
->>>>>>> branche_mar
     ]
   },
   {
     "id": "r6",
-<<<<<<< HEAD
     "name": "Pizza",
     "tags": ["pizza"],
     "time_min": 60,
@@ -99,23 +64,10 @@
     "ingredients": [
       {"name": "pizza", "qty": 1, "unit": "kg"},
       {"name": "frite", "qty": 500, "unit": "g"}
-=======
-    "name": "Gâteau aux noix",
-    "tags": ["dessert"],
-    "time_min": 45,
-    "budget_eur": 5.0,
-    "ingredients": [
-      {"name": "farine (gluten)", "qty": 200, "unit": "g"},
-      {"name": "noix", "qty": 150, "unit": "g"},
-      {"name": "oeufs", "qty": 4, "unit": "piece"},
-      {"name": "lait", "qty": 100, "unit": "ml"},
-      {"name": "beurre (lait)", "qty": 100, "unit": "g"}
->>>>>>> branche_mar
     ]
   },
   {
     "id": "r7",
-<<<<<<< HEAD
     "name": "burger",
     "tags": ["viande"],
     "time_min": 60,
@@ -123,18 +75,6 @@
     "ingredients": [
       {"name": "boeuf", "qty": 1, "unit": "kg"},
       {"name": "pain", "qty": 500, "unit": "g"}
-=======
-    "name": "Curry de lentilles au lait de coco",
-    "tags": ["vege", "indien"],
-    "time_min": 30,
-    "budget_eur": 4.0,
-    "ingredients": [
-      {"name": "lentilles", "qty": 200, "unit": "g"},
-      {"name": "lait de coco", "qty": 400, "unit": "ml"},
-      {"name": "tofu (soja)", "qty": 200, "unit": "g"},
-      {"name": "curry", "qty": 2, "unit": "cs"},
-      {"name": "oignon", "qty": 1, "unit": "piece"}
->>>>>>> branche_mar
     ]
   }
 ]

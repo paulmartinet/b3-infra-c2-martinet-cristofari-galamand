@@ -116,6 +116,8 @@ def plan_menu(
     seed: int | None = 42,
     no_duplicates: bool = False,
     exclude_ingredients: List[str] | None = None,
+    min_fish: int = 0,
+    max_meat: int | None = None,
 ) -> Dict[str, Any]:
     menu = select_menu(
         recipes, days=days, min_vege=min_vege, max_time=max_time,
